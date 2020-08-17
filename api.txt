@@ -1,0 +1,860 @@
+﻿错误消息：
+{
+    Result bool
+    ErrCode int (一般错误为0，>0特殊处理：1退出登录，2余额不足)
+    ErrMsg string
+}
+
+
+检查版本
+"/vparty/config"
+成功消息：
+{
+    result bool
+    hasUpdate int
+}
+
+
+获取验证码
+"/vparty/phone-code"
+phone string
+成功消息：
+{
+    Result bool
+}
+
+
+登录/注册
+"/vparty/phone-login"
+phone string
+captcha string
+成功消息：
+{
+    Result bool
+    UserId int
+    UserKey string
+    Nickname string
+    AvatarFile string（头像地址）
+    AvatarAudit int（0审核中，1已审核）
+    Sex int（0女，1男）
+    Age int（年龄）
+    Coins int（货币）
+    IMAppid int
+    IMSig string
+    IMPre string
+}
+
+
+设置信息
+"/vparty/set-info"
+userid int
+userkey string
+nickname string（昵称）
+sex int（0女，1男）
+year int（生日：年）
+month int（生日：月）
+day int（生日：日）
+成功消息：
+{
+    Result bool
+}
+
+
+编辑信息
+"/vparty/edit-info"
+userid int
+userkey string
+nickname string（昵称）
+signature string（签名）
+status string（情感状态）
+purpose string（交友意向）
+hobbies string（兴趣爱好：逗号分隔）
+photolist []int（照片ID列表）
+成功消息：
+{
+    Result bool
+}
+
+
+我的菜单
+"/vparty/my-menu"
+userid int
+userkey string
+成功消息：
+{
+    Result bool
+    Nickname string
+    AvatarFile string（头像地址）
+    AvatarAudit int（0审核中，1已审核）
+    Sex int（0女，1男）
+    Age int（年龄）
+    Coins int（货币）
+	FocusNum int（关注数）
+	FansNum int（粉丝数）
+	LikeNum int（点赞数）
+	GiftList []int（收到的礼物列表）
+	IsGiftMore bool（礼物是否有更多：即是否显示...）
+}
+
+
+我的资料
+"/vparty/my-info"
+userid int
+userkey string
+成功消息：
+{
+    Result bool
+    Nickname string
+    AvatarFile string（头像地址）
+    AvatarAudit int（0审核中，1已审核）
+    Sex int（0女，1男）
+    Age int（年龄）
+    Birthday string（生日）
+    Signature string（签名）
+    Status string（情感状态）
+    Purpose	string（交友意向）
+    Hobbies	string（兴趣爱好）
+    PhotoList [（照片列表）
+        {
+            Id int（照片ID）
+            Url string（照片地址）
+        },
+        ...
+    ]
+}
+
+
+用户详情
+"/vparty/user-detail"
+userid int
+userkey string
+touserid int
+成功消息：
+{
+    Result bool
+    Nickname string
+    AvatarFile string（头像地址）
+    AvatarAudit int（0审核中，1已审核）
+    Sex int（0女，1男）
+    Age int（年龄）
+    Birthday string（生日）
+    Signature string（签名）
+    Status string（情感状态）
+    Purpose	string（交友意向）
+    Hobbies	string（兴趣爱好）
+    IsFocus bool（是否关注）
+    FocusNum int（关注数）
+    FansNum int（粉丝数）
+    LikeNum int（点赞数）
+    CoinsUsed int（消费数：即送出数）
+    PhotoList []string（照片列表）
+    GiftList []int（收到的礼物列表）
+    IsGiftMore bool（礼物是否有更多：即是否显示...）
+    DynamicVideoNum int（视频动态数）
+    DynamicVideoList []string（视频封面列表）
+    DynamicImageNum int（图片动态数）
+    DynamicImageList []string（图片列表）
+}
+
+
+用户名片
+"/vparty/user-card"
+userid int
+userkey string
+touserid int
+成功消息：
+{
+    Result bool
+    Nickname string
+    AvatarFile string（头像地址）
+    AvatarAudit int（0审核中，1已审核）
+    Sex int（0女，1男）
+    Age int（年龄）
+    Signature string（签名）
+    IsFocus bool（是否关注）
+    FocusNum int（关注数）
+    FansNum int（粉丝数）
+    LikeNum int（点赞数）
+    CoinsUsed int（消费数：即送出数）
+}
+
+
+批量用户详情（获取聊天消息列表用）
+"/vparty/userinfo-list"
+userid int
+userkey string
+touseridlist []int
+成功消息：
+{
+    Result bool
+    UserInfoList [
+        {
+            UserId int
+            Nickname string
+            AvatarFile string
+            IsFocus bool
+        },
+        ...
+    ]
+}
+
+
+是否拉黑
+"/vparty/is-hate"
+userid int
+userkey string
+touserid int
+成功消息：
+{
+    Result bool
+    IsBlacklist bool（是否拉黑对方）
+    IsBeBlacklist bool（是否被对方拉黑）
+}
+
+
+获取关注列表
+"/vparty/love-list"
+userid int
+userkey string
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            UserId int
+            Nickname string
+            AvatarFile string（头像地址）
+            Sex int（0女，1男）
+            Age int（年龄）
+        },
+        ...
+    ]
+}
+
+
+获取粉丝列表
+"/vparty/fans-list"
+userid int
+userkey string
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            UserId int
+            Nickname string
+            AvatarFile string（头像地址）
+            Sex int（0女，1男）
+            Age int（年龄）
+            IsFocus bool（是否关注）
+        },
+        ...
+    ]
+}
+
+
+获取黑名单
+"/vparty/hate-list"
+userid int
+userkey string
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            UserId int
+            Nickname string
+            AvatarFile string（头像地址）
+            Sex int（0女，1男）
+            Age int（年龄）
+        },
+        ...
+    ]
+}
+
+
+获取好友列表
+"/vparty/friend-list"
+userid int
+userkey string
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            UserId int
+            Nickname string
+            AvatarFile string（头像地址）
+            Signature string（签名）
+        },
+        ...
+    ]
+}
+
+
+获取好友申请列表
+"/vparty/apply-list"
+userid int
+userkey string
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            UserId int
+            Nickname string
+            AvatarFile string（头像地址）
+            Cdate int（申请时间戳）
+        },
+        ...
+    ]
+}
+服务端下发的只有自己未关注的
+
+
+获取收礼列表
+"/vparty/receive-giftlist"
+userid int
+userkey string
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            UserId int
+            Nickname string
+            AvatarFile string（头像地址）
+            Sex int（0女，1男）
+            Age int（年龄）
+            GiftId int（礼物ID）
+            Cdate int（送礼时间戳）
+        },
+        ...
+    ]
+}
+
+
+我的钱包
+"/vparty/wallet"
+userid int
+userkey string
+成功消息：
+{
+    Result bool
+    Coins int（我的余额）
+    PayList [（充值选项）
+        {
+            Money int（人民币：元）
+            Coins int（货币）
+            AppId string（商品ID）
+        },
+        ...
+    ]
+}
+
+
+提交充值订单
+"/vparty/pay-order"
+userid int
+userkey string
+money int
+成功消息：
+{
+    Result bool
+    OrderId string（充值订单号）
+}
+
+
+完成充值
+"/vparty/pay-finish"
+userid int
+userkey string
+orderid string
+status int（1支付成功，-1支付失败）
+成功消息：
+{
+    Result bool
+    Coins int（我的余额）
+}
+
+
+送礼物
+"/vparty/send-gift"
+userid int
+userkey string
+scene string（送礼场景：'dynamic','room','message'）
+sceneid int（场景标志：dynamicid，roomid，userid）
+giftid int
+成功消息：
+{
+    Result bool
+    Coins int（剩余货币）
+}
+
+进房欢迎和送礼都是系统群消息
+消息内容是个json
+{
+    Type int
+    Msg string
+}
+Type=0表示文字消息 Msg直接显示在文字区域即可
+Type=1表示送礼滚屏消息 Msg是个json 格式如下
+{
+    SendID int
+    SendName string
+    ReceiveID int
+    ReceiveName string
+    GiftID int
+}
+Type=2表示房间在线列表消息 Msg是个json 格式如下
+{
+    RoomID int
+    OnlineUserCnt int
+    OnlineUserList [
+        {
+            UserId int
+            AvatarFile string
+        },
+        ...
+    ]
+}
+Type=3表示房间数据更新消息 Msg是个json 格式如下
+{
+    RoomID int
+    GiftValue int（房间收礼总额）
+    LikeNum int（点赞数）
+}
+
+上传图片
+"/vparty/upload-image"
+userid int
+userkey string
+usetype string（图片用途：'avatar','dynamic','photo'）
+index int
+filetype string（图片类型："jpg","png"）
+file 文件
+成功消息：
+{
+    Result bool
+    UseType string（图片用途：'avatar','dynamic','photo'）
+    Index int（客户端传来的索引，直接返回）
+    Id int（图片ID）
+}
+特别说明：由于照片列表可以修改，不是每次都必须上传新照片，所以客户端根据实际需求，已有照片ID的图片无需重复上传，只上传新图片
+
+
+上传视频
+"/vparty/upload-video"
+userid int
+userkey string
+usetype string（图片用途：'dynamic'）
+index int
+rotation int（视频旋转角度）
+covertype string（封面图片类型："jpg","png"）
+filetype string（视频类型："mp4","rmvb"）
+cover 文件（封面图片）
+file 文件（视频）
+成功消息：
+{
+    Result bool
+    UseType string（图片用途：'dynamic'）
+    Index int（客户端传来的索引，直接返回）
+    Id int（视频ID）
+}
+
+
+1对1
+"/vparty/1v1"
+userid int
+userkey string
+成功消息：
+{
+    Result bool
+    UserId int
+    Nickname string
+    AvatarFile string
+    Sex int（0女，1男）
+    Age int（年龄）
+    OtherList []string（其他用户（老虎机效果））
+}
+
+
+打电话
+"/vparty/call-up"
+userid int
+userkey string
+touserid int
+成功消息：
+{
+    Result bool
+}
+
+
+挂电话
+"/vparty/hang-up"
+userid int
+userkey string
+成功消息：
+{
+    Result bool
+}
+
+
+排行榜
+"vparty/ranklist"
+userid int
+userkey string
+tag string（标签："rich", "star", "charm"）
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            UserId int
+            Nickname string
+            AvatarFile string（头像地址）
+            Sex int（0女，1男）
+            Age int（年龄）
+            Amount int（礼物数/点赞数）
+        },
+        ...
+    ]
+}
+
+
+关注/取消关注
+"/vparty/love"
+userid int
+userkey string
+touserid int
+action int（0-取消关注，1-关注）
+成功消息：
+{
+    Result bool
+}
+
+
+拉黑/取消拉黑
+"/vparty/hate"
+userid int
+userkey string
+touserid int
+action int（0-取消拉黑，1-拉黑）
+成功消息：
+{
+    Result bool
+}
+
+
+举报
+"/vparty/report"
+userid int
+userkey string
+touserid int
+type string（举报类型）
+content string（举报内容）
+成功消息：
+{
+    Result bool
+}
+
+
+获取动态列表
+"/vparty/dynamic-list"
+userid
+userkey
+filetype（文件类型：'image','video'）
+tag（标签："new", "hot", "focus"）
+page
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            Id int（动态ID）
+            UserId int（发布用户ID）
+            Nickname string（发布用户昵称）
+            AvatarFile string（发布用户头像地址）
+            Sex int（发布用户性别，0女，1男）
+            Age int（年龄）
+            PostTime int（发布时间戳）
+            Description string（描述）
+            Imglist []string（图片地址列表，文件类型为"image"时有效）
+            VideoUrl string（视频地址，文件类型为"video"时有效）
+            VideoCover string（视频封面地址，文件类型为"video"时有效）
+            VideoRotation int（视频角度，文件类型为"video"时有效）
+            IsLike bool（是否点赞）
+            LikeNum int（点赞数）
+            CommentNum int（评论数）
+            GiftValue int（礼物总价值）
+        },
+        ...
+    ]
+}
+
+
+点赞/取消点赞动态
+"/vparty/dynamic-like"
+userid int
+userkey string
+dynamicid int
+action int（0-取消点赞，1-点赞）
+成功消息：
+{
+    Result bool
+    LikeNum int（点赞数）
+}
+
+
+获取评论列表
+"/vparty/dynamic-commentlist"
+userid int
+userkey string
+dynamicid int
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    CommentNum int（评论总数）
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            Id int（评论ID）
+            UserId int
+            Nickname string
+            AvatarFile string
+            Content string（评论内容）
+            Cdate int（评论发布时间戳）
+            IsLike bool（是否点赞该评论）
+            LikeNum int（评论点赞数）
+        },
+        ...
+    ]
+}
+
+
+评论动态
+"/vparty/dynamic-comment"
+userid int
+userkey string
+dynamicid int
+content string
+成功消息：
+{
+    Result bool
+    CommentNum int（评论数）
+}
+
+
+点赞/取消点赞评论
+"/vparty/dynamic-likecomment"
+userid int
+userkey string
+commentid int
+action int（0-取消点赞，1-点赞）
+成功消息：
+{
+    Result bool
+    LikeNum int（点赞数）
+}
+
+
+发布动态
+"/vparty/dynamic-post"
+userid
+userkey
+description（描述）
+filetype（文件类型："image","video"）
+filelist[]（文件ID列表：[]int）
+成功消息：
+{
+    Result bool
+}
+
+
+用户动态列表
+"/vparty/dynamic-userlist"
+userid int
+userkey string
+touserid int
+filetype（文件类型：'image','video'）
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            Id int（动态ID）
+            PostTime int（发布时间戳）
+            Description string（描述）
+            Imglist []string（图片地址列表，文件类型为"image"时有效）
+            VideoUrl string（视频地址，文件类型为"video"时有效）
+            VideoCover string（视频封面地址，文件类型为"video"时有效）
+            VideoRotation int（视频角度，文件类型为"video"时有效）
+            IsLike bool（是否点赞）
+            LikeNum int（点赞数）
+            CommentNum int（评论数）
+            GiftValue int（礼物总价值）
+            IsAudit int（0审核中，1已审核）
+        },
+        ...
+    ]
+}
+
+
+删除动态
+"/vparty/dynamic-delete"
+userid int
+userkey string
+dynamicid int
+成功消息：
+{
+    Result bool
+}
+
+
+获取房间列表
+"/vparty/room-list"
+userid int
+userkey string
+roomtype int（房间类型：0-单人房，1-多人房）
+tag string（标签："new", "hot", "focus"）
+page int（请求页数，从0开始）
+成功消息：
+{
+    Result bool
+    IsEnd bool（是否最后一页）
+    Data [
+        {
+            UserId int（房主ID）
+            RoomId int（房间ID）
+            AvatarFile string（房主头像地址）
+            RoomName string（房间名称）
+            LikeNum int（点赞数）
+        },
+        ...
+    ]
+}
+
+
+进入房间
+"/vparty/room-enter"
+userid int
+userkey string
+roomid int
+成功消息：
+{
+    Result bool
+    ImGroup string（IM群组ID）
+    UserId int（房主ID）
+    Nickname string
+    AvatarFile string（头像地址）
+    GiftValue int（房间收礼总额）
+    LikeNum int（点赞数）
+}
+
+
+退出房间
+"/vparty/room-leave"
+userid int
+userkey string
+roomid int
+成功消息：
+{
+    Result bool
+}
+
+
+申请创建房间
+"/vparty/room-create"
+userid int
+userkey string
+roomtype int（房间类型：0-单人房，1-多人房）
+成功消息：
+{
+    Result bool
+}
+
+
+点赞房间
+"/vparty/room-like"
+userid int
+userkey string
+roomid int
+成功消息：
+{
+    Result bool
+}
+
+
+申请上座
+"/vparty/room-seat"
+userid int
+userkey string
+roomid int
+成功消息：
+{
+    Result bool
+    IsRepeat bool（是否重复申请）
+}
+
+
+审核接口，支持浏览器访问
+
+导入IM账号
+"/vpartymanager/im/import"
+min int（最小userid）
+max int（最大userid，可以不填，默认等于min）
+此接口会导入userid从min到max的所有账号，小客服的userid是1，官方账号是从11到18
+
+
+查询头像待审列表
+"/vpartymanager/avatar/list"
+page int（请求页数，从0开始）
+count int（每页个数，可以不填，默认是10）
+
+
+审核头像
+"/vpartymanager/avatar/audit"
+id int（头像ID）
+action int（1通过，-1拒绝，可以不填，默认是1）
+
+
+查询动态待审列表
+"/vpartymanager/dynamic/list"
+page int（请求页数，从0开始）
+count int（每页个数，可以不填，默认是10）
+
+
+审核动态
+"/vpartymanager/dynamic/audit"
+id int（动态ID）
+action int（1通过，-1拒绝，可以不填，默认是1）
+
+
+查询照片待审列表
+"/vpartymanager/photo/list"
+page int（请求页数，从0开始）
+count int（每页个数，可以不填，默认是10）
+
+
+审核照片
+"/vpartymanager/photo/audit"
+id int（动态ID）
+action int（1通过，-1拒绝，可以不填，默认是1）
